@@ -37,25 +37,25 @@ RCT_EXPORT_MODULE();
 // https://facebook.github.io/react-native/docs/native-modules-ios.html
 
 
-RCT_EXPORT_METHOD(showAlert:(NSDictionary *) msgInfo callback:(RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(showAlert:(NSString *) title message:(NSString *) message cancelable:(BOOL) cancelable buttons:(NSArray *)buttons  callback:(RCTResponseSenderBlock)callback){
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *title     = @"";
-        NSString *message   = @"";
-        NSArray *buttons    =   [[NSArray alloc] init];
-        if ([msgInfo valueForKey:@"title"] != nil) {
-            title = [msgInfo valueForKey:@"title"];
+        NSString *alertTitle     = @"";
+        NSString *alertMessage   = @"";
+        NSArray *alertButtons    =   [[NSArray alloc] init];
+        if (title != nil) {
+            alertTitle = title;
         }
-        if ([msgInfo valueForKey:@"message"] != nil) {
-            message = [msgInfo valueForKey:@"message"];
+        if (message != nil) {
+            alertMessage = message;
         }
-        if ([msgInfo valueForKey:@"buttons"] != nil) {
-            buttons = [msgInfo valueForKey:@"buttons"];
+        if (buttons.count > 0) {
+            alertButtons = buttons;
         }
-        UIAlertController* alerViewController = [UIAlertController alertControllerWithTitle:title
-                                                                       message:message
+        UIAlertController* alerViewController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                                       message:alertMessage
                                                                 preferredStyle:UIAlertControllerStyleAlert];
-        for (int index = 0; index < [buttons count];index++ ) {
-            UIAlertAction *action = [UIAlertAction actionWithTitle:buttons[index] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        for (int index = 0; index < [alertButtons count];index++ ) {
+            UIAlertAction *action = [UIAlertAction actionWithTitle:alertButtons[index] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 NSNumber *selectedIndex = [NSNumber numberWithInt:index];
                 NSDictionary *selectedButton = [[NSDictionary alloc]initWithObjectsAndKeys:selectedIndex,@"buttonIndex", nil];
                 callback(@[[NSNull null], selectedButton]);

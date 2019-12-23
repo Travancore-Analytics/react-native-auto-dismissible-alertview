@@ -24,36 +24,35 @@ public class AlertView extends ReactContextBaseJavaModule  {
     }
 
     @ReactMethod
-    public void showAlert(ReadableMap msgInfo , final Callback callback){
+    public void showAlert(String title, String message, Boolean cancelable, ReadableArray buttons, final Callback callback){
 
 
         if (dialog != null && dialog.isShowing()){
             dialog.dismiss();
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getCurrentActivity());
-        if (msgInfo.hasKey("title")){
-            builder.setTitle(msgInfo.getString("title"));
+        if (title != null){
+            builder.setTitle(title);
         }
-        if (msgInfo.hasKey("message")){
-            builder.setMessage(msgInfo.getString("message"));
+        if (message != null){
+            builder.setMessage(message);
         }
-        if (msgInfo.hasKey("buttons")){
-            final ReadableArray buttons = msgInfo.getArray("buttons");
+        if (buttons.size() > 0){
 
 
             if (buttons.size() >1){
-                builder.setPositiveButton(buttons.getString(0),new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(buttons.getString(1),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         WritableMap selectedButton = new WritableNativeMap();
-                        selectedButton.putInt("buttonIndex",0);
+                        selectedButton.putInt("buttonIndex",1);
                         dialog.dismiss();
                         callback.invoke(null,selectedButton);
                     }
                 });
-                builder.setNegativeButton(buttons.getString(1),new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(buttons.getString(0),new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         WritableMap selectedButton = new WritableNativeMap();
-                        selectedButton.putInt("buttonIndex",1);
+                        selectedButton.putInt("buttonIndex",0);
                         dialog.dismiss();
                         callback.invoke(null,selectedButton);
                     }
@@ -68,15 +67,8 @@ public class AlertView extends ReactContextBaseJavaModule  {
                     }
                 });
             }
-//            for (int index = 0; index < buttons.size(); index++)
-//            {
-//                builder.setPositiveButton(buttons.getString(index),new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        //callback.invoke(null,1);
-//                    }
-//                });
-//            }
         }
+        builder.setCancelable(cancelable);
         // create and show the alert dialog
         dialog = builder.create();
         dialog.show();

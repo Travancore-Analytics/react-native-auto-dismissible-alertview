@@ -3,7 +3,7 @@ import { NativeModules } from "react-native";
 const { AlertView } = NativeModules;
 
 export default {
-  showAlert(msgInfo,callback) {
-    return AlertView.showAlert(msgInfo,callback);
+  showAlert(title,message,cancelable,buttons,callback) {
+    return AlertView.showAlert(title,message,cancelable,buttons,callback);
   }
 };
