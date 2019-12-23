@@ -37,7 +37,7 @@ public class AlertView extends ReactContextBaseJavaModule  {
         if (message != null){
             builder.setMessage(message);
         }
-        if (buttons.size() > 0){
+        if (buttons != null && buttons.size() > 0){
 
 
             if (buttons.size() >1){
@@ -67,14 +67,11 @@ public class AlertView extends ReactContextBaseJavaModule  {
                     }
                 });
             }
+            builder.setCancelable(cancelable);
+            // create and show the alert dialog
+            dialog = builder.create();
+            dialog.show();
         }
-        builder.setCancelable(cancelable);
-        // create and show the alert dialog
-        dialog = builder.create();
-        dialog.show();
-
-
-        //callback.invoke(null,1);
     }
     @Override
     public String getName() {

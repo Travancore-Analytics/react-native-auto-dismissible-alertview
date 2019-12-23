@@ -54,31 +54,48 @@ RCT_EXPORT_METHOD(showAlert:(NSString *) title message:(NSString *) message canc
         UIAlertController* alerViewController = [UIAlertController alertControllerWithTitle:alertTitle
                                                                        message:alertMessage
                                                                 preferredStyle:UIAlertControllerStyleAlert];
-        for (int index = 0; index < [alertButtons count];index++ ) {
-            UIAlertAction *action = [UIAlertAction actionWithTitle:alertButtons[index] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                NSNumber *selectedIndex = [NSNumber numberWithInt:index];
-                NSDictionary *selectedButton = [[NSDictionary alloc]initWithObjectsAndKeys:selectedIndex,@"buttonIndex", nil];
-                callback(@[[NSNull null], selectedButton]);
-            }];
-            [alerViewController addAction:action];
+        
+        if (alertButtons.count > 0) {
+            if (alertButtons.count > 1) {
+                UIAlertAction *primaryAction = [UIAlertAction actionWithTitle:alertButtons[0] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    NSNumber *selectedIndex = [NSNumber numberWithInt:0];
+                    NSDictionary *selectedButton = [[NSDictionary alloc]initWithObjectsAndKeys:selectedIndex,@"buttonIndex", nil];
+                    callback(@[[NSNull null], selectedButton]);
+                }];
+                UIAlertAction *secondaryAction = [UIAlertAction actionWithTitle:alertButtons[1] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    NSNumber *selectedIndex = [NSNumber numberWithInt:1];
+                    NSDictionary *selectedButton = [[NSDictionary alloc]initWithObjectsAndKeys:selectedIndex,@"buttonIndex", nil];
+                    callback(@[[NSNull null], selectedButton]);
+                }];
+                [alerViewController addAction:primaryAction];
+                [alerViewController addAction:secondaryAction];
+            }else{
+                UIAlertAction *primaryAction = [UIAlertAction actionWithTitle:alertButtons[0] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    NSNumber *selectedIndex = [NSNumber numberWithInt:0];
+                    NSDictionary *selectedButton = [[NSDictionary alloc]initWithObjectsAndKeys:selectedIndex,@"buttonIndex", nil];
+                    callback(@[[NSNull null], selectedButton]);
+                }];
+                [alerViewController addAction:primaryAction];
+            }
+            
+            UIViewController *root = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+            UIViewController *previousVC = nil;
+            while (root.presentedViewController) {
+                if ([root.presentedViewController isKindOfClass:[UIAlertController class]]) {
+                    previousVC = root.presentedViewController;
+                    break;
+                }
+                root = root.presentedViewController;
+            }
+            if (previousVC != nil) {
+                [previousVC dismissViewControllerAnimated:true completion:^{
+                    [root presentViewController:alerViewController animated:YES completion:nil];
+                }];
+            }else{
+                [root presentViewController:alerViewController animated:YES completion:nil];
+            }
         }
         
-        UIViewController *root = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-        UIViewController *previousVC = nil;
-        while (root.presentedViewController) {
-            if ([root.presentedViewController isKindOfClass:[UIAlertController class]]) {
-                previousVC = root.presentedViewController;
-                break;
-            }
-            root = root.presentedViewController;
-        }
-        if (previousVC != nil) {
-            [previousVC dismissViewControllerAnimated:true completion:^{
-                [root presentViewController:alerViewController animated:YES completion:nil];
-            }];
-        }else{
-            [root presentViewController:alerViewController animated:YES completion:nil];
-        }
     });
     
 }
