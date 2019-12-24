@@ -1,0 +1,25 @@
+{
+  "name": "react-native-auto-dismissible-alertview",
+  "version": "1.0.0",
+  "description": "React native module for showing alert",
+  "files": [
+    "android",
+    "ios",
+    "index.js",
+    "react-native-auto-dismissible-alertview.podspec"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Travancore-Analytics/react-native-auto-dismissible-alertview.git"
+  },
+  "author": "Travancore Analytics",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Travancore-Analytics/react-native-auto-dismissible-alertview/issues"
+  },
+  "homepage": "https://github.com/Travancore-Analytics/react-native-auto-dismissible-alertview#readme"
+}
