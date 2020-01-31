@@ -1,9 +1,3 @@
-//
-//  CustomAlertViewController.h
-//  DoubleConversion
-//
-//  Created by Senorita Jose on 14/01/20.
-//
 
 #import <UIKit/UIKit.h>
 
