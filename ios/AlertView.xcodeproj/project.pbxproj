@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		95487FA22397827900FF9DEF /* AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 95487FA12397827900FF9DEF /* AlertView.m */; };
 		95487FA32397827900FF9DEF /* AlertView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95487FA02397827900FF9DEF /* AlertView.h */; };
+		E6CAC93F23DEBF4200AC5F3C /* CustomAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6CAC93E23DEBF4200AC5F3C /* CustomAlertViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,9 @@
 		95487F9D2397827900FF9DEF /* libAlertView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAlertView.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		95487FA02397827900FF9DEF /* AlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlertView.h; sourceTree = "<group>"; };
 		95487FA12397827900FF9DEF /* AlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AlertView.m; sourceTree = "<group>"; };
+		E6CAC93C23DEBF4200AC5F3C /* CustomAlertViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAlertViewController.xib; sourceTree = "<group>"; };
+		E6CAC93D23DEBF4200AC5F3C /* CustomAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlertViewController.h; sourceTree = "<group>"; };
+		E6CAC93E23DEBF4200AC5F3C /* CustomAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAlertViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +66,9 @@
 			children = (
 				95487FA02397827900FF9DEF /* AlertView.h */,
 				95487FA12397827900FF9DEF /* AlertView.m */,
+				E6CAC93D23DEBF4200AC5F3C /* CustomAlertViewController.h */,
+				E6CAC93E23DEBF4200AC5F3C /* CustomAlertViewController.m */,
+				E6CAC93C23DEBF4200AC5F3C /* CustomAlertViewController.xib */,
 			);
 			path = AlertView;
 			sourceTree = "<group>";
@@ -122,6 +129,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6CAC93F23DEBF4200AC5F3C /* CustomAlertViewController.m in Sources */,
 				95487FA22397827900FF9DEF /* AlertView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
