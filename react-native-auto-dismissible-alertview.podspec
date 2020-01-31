@@ -14,5 +14,6 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "git+https://github.com/Travancore-Analytics/react-native-auto-dismissible-alertview.git", :tag => "v#{s.version}" }
   s.source_files  = "ios/**/*.{h,m}"
+  s.resources = "ios/**/*.xib"
   s.dependency 'React'
 end
