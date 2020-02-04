@@ -174,9 +174,5 @@ RCT_EXPORT_METHOD(showCustomizedAlert:(NSString *) title message:(NSString *) me
     return @[];
 }
 
-- (NSDictionary *)constantsToExport
-{
-    return @{  };
-}
 
 @end
