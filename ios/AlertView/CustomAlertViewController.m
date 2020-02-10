@@ -10,6 +10,8 @@
 
 @property (unsafe_unretained, nonatomic) IBOutlet UIButton *closeButton;
 @property (unsafe_unretained, nonatomic) IBOutlet UIButton *submitButton;
+@property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *centerImageHeightConstraint;
+@property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *centerImageTopConstraint;
 
 @end
 
@@ -75,10 +77,16 @@
 }
 
 - (void) setupCentreImage {
-    
-    NSString *urlStar = [[_styleData valueForKey:@"centerImage"] valueForKey:@"uri"];
-    NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: urlStar]];
-    _centerImageView.image = [UIImage imageWithData:imageData scale:1.0f];
+    if([_styleData valueForKey:@"centerImage"] != nil){
+        NSString *urlStar = [[_styleData valueForKey:@"centerImage"] valueForKey:@"uri"];
+        NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: urlStar]];
+        _centerImageView.image = [UIImage imageWithData:imageData scale:1.0f];
+        _centerImageTopConstraint.constant = 20;
+        _centerImageHeightConstraint.constant = 37;
+    }else{
+        _centerImageTopConstraint.constant = 0;
+        _centerImageHeightConstraint.constant = 0;
+    }
 }
 
 - (void) setupCloseButton {
