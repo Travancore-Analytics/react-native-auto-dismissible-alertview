@@ -94,6 +94,7 @@
     NSString *urlButton = [[_styleData valueForKey:@"closeButtonImage"] valueForKey:@"uri"];
     NSData *closeImage = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: urlButton]];
     UIImage *buttonImage = [UIImage imageWithData:closeImage scale:1.0f];
+    _closeButton.accessibilityLabel = @"AlertClose";
     [_closeButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
 }
 
@@ -103,6 +104,7 @@
     NSString *fontName = [font componentsSeparatedByString:@"."].firstObject;
     NSString *fontSize =  [[_styleData valueForKey:@"buttonStyle"] valueForKey:@"fontSize"];
     NSString *fontColorString =  [[_styleData valueForKey:@"buttonStyle"] valueForKey:@"color"];
+    _submitButton.accessibilityLabel = @"AlertSubmit";
     [_submitButton setTitle:_submitText forState:UIControlStateNormal];
     
     if (fontColorString != nil) {

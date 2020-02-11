@@ -31,6 +31,7 @@
                 android:textColor="#FFF"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/close"
+                android:contentDescription="AlertClose"
                 />
         </RelativeLayout>
 
@@ -78,7 +79,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:text="SUBMIT"
-
+            android:contentDescription="AlertSubmit"
             android:textSize="34sp"
             android:textColor="#000000"
             style="?android:attr/borderlessButtonStyle"/>
