@@ -133,7 +133,7 @@ RCT_EXPORT_METHOD(showCustomizedAlert:(NSString *) title message:(NSString *) me
         
         while (root.presentedViewController) {
             
-            if ([root.presentedViewController isKindOfClass:[UIView class]]) {
+            if ([root.presentedViewController isKindOfClass:[UIViewController class]]) {
                 previousVC = root.presentedViewController;
                 break;
             }
@@ -141,7 +141,7 @@ RCT_EXPORT_METHOD(showCustomizedAlert:(NSString *) title message:(NSString *) me
             root = root.presentedViewController;
         }
         
-        if (previousVC != nil) {
+        if (previousVC != nil && !previousVC.isBeingDismissed) {
             [previousVC dismissViewControllerAnimated:true completion:^{
                 [root presentViewController:popupViewController animated:NO completion:nil];
             }];
