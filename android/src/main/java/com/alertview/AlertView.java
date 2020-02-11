@@ -134,6 +134,7 @@ public class AlertView extends ReactContextBaseJavaModule  {
             setImage(closeButton,styles.getMap("closeButtonImage"));
         }
         if(styles.hasKey("centerImage")){
+            centerImageView.setVisibility(View.VISIBLE);
             setImage(centerImageView,styles.getMap("centerImage"));
         }
 
