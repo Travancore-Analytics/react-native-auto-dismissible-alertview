@@ -38,11 +38,11 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="192-b5-yWU">
-                            <rect key="frame" x="328" y="12" width="20" height="20"/>
+                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="192-b5-yWU">
+                            <rect key="frame" x="323" y="12" width="25" height="25"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="20" id="HcH-uo-Xms"/>
-                                <constraint firstAttribute="height" constant="20" id="x31-a7-McZ"/>
+                                <constraint firstAttribute="width" constant="25" id="HcH-uo-Xms"/>
+                                <constraint firstAttribute="height" constant="25" id="x31-a7-McZ"/>
                             </constraints>
                             <state key="normal" image="close">
                                 <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -79,10 +79,9 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="naJ-q3-xdc">
-                            <rect key="frame" x="80" y="169" width="200" height="40"/>
+                            <rect key="frame" x="10" y="169" width="340" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="iXD-gu-MBY"/>
-                                <constraint firstAttribute="width" constant="200" id="xul-cQ-dzH"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
                             <state key="normal">
@@ -101,10 +100,12 @@
                         <constraint firstItem="192-b5-yWU" firstAttribute="top" secondItem="axp-bz-KuU" secondAttribute="top" constant="12" id="87u-Tl-d1f"/>
                         <constraint firstItem="1j6-2M-aB4" firstAttribute="leading" secondItem="axp-bz-KuU" secondAttribute="leading" constant="45" id="DUj-6b-eZj"/>
                         <constraint firstItem="mj9-08-vW8" firstAttribute="centerX" secondItem="axp-bz-KuU" secondAttribute="centerX" id="Ern-9F-fs0"/>
+                        <constraint firstItem="naJ-q3-xdc" firstAttribute="leading" secondItem="axp-bz-KuU" secondAttribute="leading" constant="10" id="MnI-JM-F35"/>
                         <constraint firstItem="MIL-hT-RHY" firstAttribute="top" secondItem="mj9-08-vW8" secondAttribute="bottom" constant="20" id="Wc3-xh-lTY"/>
                         <constraint firstItem="V0m-9w-PVQ" firstAttribute="leading" secondItem="axp-bz-KuU" secondAttribute="leading" constant="35" id="cb0-Fv-bgS"/>
                         <constraint firstItem="naJ-q3-xdc" firstAttribute="centerX" secondItem="axp-bz-KuU" secondAttribute="centerX" id="cgH-Q8-apr"/>
                         <constraint firstAttribute="trailing" secondItem="MIL-hT-RHY" secondAttribute="trailing" constant="65" id="de8-eS-7DT"/>
+                        <constraint firstAttribute="trailing" secondItem="naJ-q3-xdc" secondAttribute="trailing" constant="10" id="dlW-ip-6b8"/>
                         <constraint firstItem="naJ-q3-xdc" firstAttribute="top" secondItem="aeg-ij-urm" secondAttribute="bottom" constant="15" id="hLT-Od-Vne"/>
                         <constraint firstItem="1j6-2M-aB4" firstAttribute="top" secondItem="V0m-9w-PVQ" secondAttribute="bottom" constant="10" id="kZa-Sg-TbS"/>
                         <constraint firstAttribute="trailing" secondItem="192-b5-yWU" secondAttribute="trailing" constant="12" id="rrj-bV-fPg"/>
