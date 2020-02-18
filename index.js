@@ -6,7 +6,7 @@ export default {
   showAlert(title,message,cancelable,buttons,callback) {
     return AlertView.showAlert(title,message,cancelable,buttons,callback);
   },
-  showCustomizedAlert(title,message,buttonText,style,forceNewInstance,callback){
-      return AlertView.showCustomizedAlert(title,message,buttonText,style,forceNewInstance,callback);
+  showCustomizedAlert(title,message,buttonText,style,autoDismiss = true,callback){
+      return AlertView.showCustomizedAlert(title,message,buttonText,style,autoDismiss,callback);
   }
 };

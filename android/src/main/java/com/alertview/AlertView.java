@@ -131,14 +131,14 @@ public class AlertView extends ReactContextBaseJavaModule  {
 
     }
 
-    @ReactMethod public void showCustomizedAlert(String title, String message,String buttonText,ReadableMap styles,  boolean forceNewInstance, final Callback callback){
+    @ReactMethod public void showCustomizedAlert(String title, String message,String buttonText,ReadableMap styles,  boolean autoDismiss, final Callback callback){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getCurrentActivity());
         builder.setCancelable(false);
         builder.setView(R.layout.customalert);
 
 
-        if(forceNewInstance) {
+        if(!autoDismiss) {
             AlertDialog dialog = builder.create();
             dialog.show();
             configureDialog(dialog,title,message,buttonText,styles,callback);
