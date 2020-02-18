@@ -103,7 +103,7 @@ RCT_EXPORT_METHOD(showAlert:(NSString *) title message:(NSString *) message canc
     });
 }
 
-RCT_EXPORT_METHOD(showCustomizedAlert:(NSString *) title message:(NSString *) message buttonText:(NSString *) buttonText style:(NSDictionary *)style  callback:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(showCustomizedAlert:(NSString *) title message:(NSString *) message buttonText:(NSString *) buttonText style:(NSDictionary *)style forceNewInstance:(BOOL)forceNewInstance  callback:(RCTResponseSenderBlock)callback) {
     
     self.alertCallback = callback;
     

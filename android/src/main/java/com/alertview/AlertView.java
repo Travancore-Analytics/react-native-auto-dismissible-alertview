@@ -80,14 +80,8 @@ public class AlertView extends ReactContextBaseJavaModule  {
         return BitmapFactory.decodeStream(input);
     }
 
-    @ReactMethod public void showCustomizedAlert(String title, String message,String buttonText,ReadableMap styles ,final Callback callback){
+    private AlertDialog configureDialog(final AlertDialog dialog,String title, String message,String buttonText,ReadableMap styles, final Callback callback){
 
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getCurrentActivity());
-        builder.setCancelable(false);
-        builder.setView(R.layout.customalert);
-        final AlertDialog dialog = builder.create();
-        dialog.show();
 
         TextView titleTextView      = (TextView)  dialog.findViewById(R.id.titleTextView);
         TextView messageTextView    = (TextView)  dialog.findViewById(R.id.messageTextView);
@@ -133,6 +127,31 @@ public class AlertView extends ReactContextBaseJavaModule  {
         if(styles.hasKey("centerImage")){
             centerImageView.setVisibility(View.VISIBLE);
             setImage(centerImageView,styles.getMap("centerImage"));
+        }
+
+        return dialog;
+    }
+
+    @ReactMethod public void showCustomizedAlert(String title, String message,String buttonText,ReadableMap styles,  boolean forceNewInstance, final Callback callback){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getCurrentActivity());
+        builder.setCancelable(false);
+        builder.setView(R.layout.customalert);
+
+
+        if(forceNewInstance) {
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            configureDialog(dialog,title,message,buttonText,styles,callback);
+
+        } else {
+            if (dialog != null && dialog.isShowing()){
+                dialog.dismiss();
+            }
+            dialog = builder.create();
+            dialog.show();
+            dialog = configureDialog(dialog,title,message,buttonText,styles,callback);
+
         }
 
     }
