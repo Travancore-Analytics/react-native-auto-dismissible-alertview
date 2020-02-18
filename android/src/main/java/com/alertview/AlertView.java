@@ -80,7 +80,7 @@ public class AlertView extends ReactContextBaseJavaModule  {
         return BitmapFactory.decodeStream(input);
     }
 
-    private AlertDialog configureDialog(final AlertDialog dialog,String title, String message,String buttonText,ReadableMap styles, final Callback callback){
+    private void configureDialog(final AlertDialog dialog,String title, String message,String buttonText,ReadableMap styles, final Callback callback){
 
 
         TextView titleTextView      = (TextView)  dialog.findViewById(R.id.titleTextView);
@@ -129,7 +129,6 @@ public class AlertView extends ReactContextBaseJavaModule  {
             setImage(centerImageView,styles.getMap("centerImage"));
         }
 
-        return dialog;
     }
 
     @ReactMethod public void showCustomizedAlert(String title, String message,String buttonText,ReadableMap styles,  boolean forceNewInstance, final Callback callback){
@@ -150,7 +149,7 @@ public class AlertView extends ReactContextBaseJavaModule  {
             }
             dialog = builder.create();
             dialog.show();
-            dialog = configureDialog(dialog,title,message,buttonText,styles,callback);
+            configureDialog(dialog,title,message,buttonText,styles,callback);
 
         }
 
