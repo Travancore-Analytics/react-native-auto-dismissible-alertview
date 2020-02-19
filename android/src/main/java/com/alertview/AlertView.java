@@ -143,15 +143,19 @@ public class AlertView extends ReactContextBaseJavaModule  {
         builder.setCancelable(false);
         builder.setView(R.layout.customalert);
 
+        // Dismissing any auto-dismissible alerts if already showing.
         if (dialog != null && dialog.isShowing()){
             dialog.dismiss();
         }
+
         if(!autoDismiss) {
+            // Creates an alert that doesn't have any reference that will not be dismissed automatically
             AlertDialog dialog = builder.create();
             dialog.show();
             configureDialog(dialog,title,message,buttonText,styles,showClose,callback);
 
         } else {
+            // Creates an alert and will keep reference and will be dismissed automatically.
             dialog = builder.create();
             dialog.show();
             configureDialog(dialog,title,message,buttonText,styles,showClose,callback);
