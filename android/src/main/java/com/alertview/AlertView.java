@@ -26,6 +26,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static android.view.View.GONE;
+
 public class AlertView extends ReactContextBaseJavaModule  {
 
     public static final String REACT_CLASS = "AlertView";
@@ -80,7 +82,7 @@ public class AlertView extends ReactContextBaseJavaModule  {
         return BitmapFactory.decodeStream(input);
     }
 
-    private void configureDialog(final AlertDialog dialog,String title, String message,String buttonText,ReadableMap styles, final Callback callback){
+    private void configureDialog(final AlertDialog dialog,String title, String message,String buttonText,ReadableMap styles,boolean showClose, final Callback callback){
 
 
         TextView titleTextView      = (TextView)  dialog.findViewById(R.id.titleTextView);
@@ -121,8 +123,12 @@ public class AlertView extends ReactContextBaseJavaModule  {
         if(styles.hasKey("buttonStyle")){
             applyCustomStyles(submitButton,styles.getMap("buttonStyle"));
         }
-        if(styles.hasKey("closeButtonImage")){
-            setImage(closeButton,styles.getMap("closeButtonImage"));
+        if (showClose){
+            if(styles.hasKey("closeButtonImage")){
+                setImage(closeButton,styles.getMap("closeButtonImage"));
+            }
+        }else{
+            closeButton.setVisibility(GONE);
         }
         if(styles.hasKey("centerImage")){
             centerImageView.setVisibility(View.VISIBLE);
@@ -131,25 +137,24 @@ public class AlertView extends ReactContextBaseJavaModule  {
 
     }
 
-    @ReactMethod public void showCustomizedAlert(String title, String message,String buttonText,ReadableMap styles,  boolean autoDismiss, final Callback callback){
+    @ReactMethod public void showCustomizedAlert(String title, String message,String buttonText,ReadableMap styles, boolean autoDismiss,boolean showClose, final Callback callback){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getCurrentActivity());
         builder.setCancelable(false);
         builder.setView(R.layout.customalert);
 
-
+        if (dialog != null && dialog.isShowing()){
+            dialog.dismiss();
+        }
         if(!autoDismiss) {
             AlertDialog dialog = builder.create();
             dialog.show();
-            configureDialog(dialog,title,message,buttonText,styles,callback);
+            configureDialog(dialog,title,message,buttonText,styles,showClose,callback);
 
         } else {
-            if (dialog != null && dialog.isShowing()){
-                dialog.dismiss();
-            }
             dialog = builder.create();
             dialog.show();
-            configureDialog(dialog,title,message,buttonText,styles,callback);
+            configureDialog(dialog,title,message,buttonText,styles,showClose,callback);
 
         }
 
