@@ -103,7 +103,7 @@ RCT_EXPORT_METHOD(showAlert:(NSString *) title message:(NSString *) message canc
     });
 }
 
-RCT_EXPORT_METHOD(showCustomizedAlert:(NSString *) title message:(NSString *) message buttonText:(NSString *) buttonText style:(NSDictionary *)style autoDismiss:(BOOL)autoDismiss  callback:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(showCustomizedAlert:(NSString *) title message:(NSString *) message buttonText:(NSString *) buttonText style:(NSDictionary *)style autoDismiss:(BOOL)autoDismiss showClose:(BOOL)showClose callback:(RCTResponseSenderBlock)callback) {
     
     self.alertCallback = callback;
     
@@ -127,6 +127,7 @@ RCT_EXPORT_METHOD(showCustomizedAlert:(NSString *) title message:(NSString *) me
         if (buttonText != nil) {
             popupViewController.submitText = buttonText;
         }
+        popupViewController.showClose = showClose;
         
         UIViewController *root = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
         UIViewController *previousVC = nil;
@@ -143,6 +144,7 @@ RCT_EXPORT_METHOD(showCustomizedAlert:(NSString *) title message:(NSString *) me
         
         if (previousVC != nil && !previousVC.isBeingDismissed) {
             [previousVC dismissViewControllerAnimated:true completion:^{
+                [popupViewController setModalPresentationStyle:UIModalPresentationOverCurrentContext];
                 [root presentViewController:popupViewController animated:NO completion:nil];
             }];
         }else{

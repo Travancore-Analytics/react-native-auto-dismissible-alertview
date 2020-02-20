@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
     @property (nonatomic, retain) NSString *titleText;
     @property (nonatomic, retain) NSString *message;
     @property (nonatomic, retain) NSString *submitText;
+    @property (nonatomic, assign) BOOL showClose;
     @property (nonatomic, weak) id <CustomAlertDelegate> delegate;
 
 @end

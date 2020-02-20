@@ -91,11 +91,17 @@
 
 - (void) setupCloseButton {
     
-    NSString *urlButton = [[_styleData valueForKey:@"closeButtonImage"] valueForKey:@"uri"];
-    NSData *closeImage = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: urlButton]];
-    UIImage *buttonImage = [UIImage imageWithData:closeImage scale:1.0f];
-    _closeButton.accessibilityLabel = @"AlertClose";
-    [_closeButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    if (_showClose) {
+        NSString *urlButton = [[_styleData valueForKey:@"closeButtonImage"] valueForKey:@"uri"];
+        NSData *closeImage = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: urlButton]];
+        UIImage *buttonImage = [UIImage imageWithData:closeImage scale:1.0f];
+        _closeButton.accessibilityLabel = @"AlertClose";
+        [_closeButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    }else{
+        [_closeButton setHidden:YES];
+    }
+    
+    
 }
 
 - (void) setupSubmitButton {
