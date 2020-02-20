@@ -7,9 +7,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.react.bridge.Callback;
@@ -82,6 +82,14 @@ public class AlertView extends ReactContextBaseJavaModule  {
         return BitmapFactory.decodeStream(input);
     }
 
+    private void showDialog(final AlertDialog dialog,String title, String message,String buttonText,ReadableMap styles,boolean showClose, final Callback callback){
+        dialog.show();
+        // Set the alert size, to solve issues while coming back from landscape activity
+        dialog.getWindow().setLayout((int) getCurrentActivity().getResources().getDimension(R.dimen.alert_width),
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        configureDialog(dialog,title,message,buttonText,styles,showClose,callback);
+    }
+
     private void configureDialog(final AlertDialog dialog,String title, String message,String buttonText,ReadableMap styles,boolean showClose, final Callback callback){
 
 
@@ -137,31 +145,30 @@ public class AlertView extends ReactContextBaseJavaModule  {
 
     }
 
-    @ReactMethod public void showCustomizedAlert(String title, String message,String buttonText,ReadableMap styles, boolean autoDismiss,boolean showClose, final Callback callback){
+    @ReactMethod public void showCustomizedAlert(final String title, final String message, final String buttonText, final ReadableMap styles, final boolean autoDismiss, final boolean showClose, final Callback callback){
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getCurrentActivity());
-        builder.setCancelable(false);
-        builder.setView(R.layout.customalert);
+        getCurrentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getCurrentActivity());
+                builder.setCancelable(false);
+                builder.setView(R.layout.customalert);
 
-        // Dismissing any auto-dismissible alerts if already showing.
-        if (dialog != null && dialog.isShowing()){
-            dialog.dismiss();
-        }
+                // Dismissing any auto-dismissible alerts if already showing.
+                if (dialog != null && dialog.isShowing()){
+                    dialog.dismiss();
+                }
 
-        if(!autoDismiss) {
-            // Creates an alert that doesn't have any reference that will not be dismissed automatically
-            AlertDialog dialog = builder.create();
-            dialog.show();
-            configureDialog(dialog,title,message,buttonText,styles,showClose,callback);
-
-        } else {
-            // Creates an alert and will keep reference and will be dismissed automatically.
-            dialog = builder.create();
-            dialog.show();
-            configureDialog(dialog,title,message,buttonText,styles,showClose,callback);
-
-        }
-
+                if(!autoDismiss) {
+                    // Creates an alert that doesn't have any reference that will not be dismissed automatically
+                    showDialog(builder.create(),title,message,buttonText,styles,showClose,callback);
+                } else {
+                    // Creates an alert and will keep reference and will be dismissed automatically.
+                    dialog = builder.create();
+                    showDialog(dialog,title,message,buttonText,styles,showClose,callback);
+                }
+            }
+        });
     }
 
     @ReactMethod
