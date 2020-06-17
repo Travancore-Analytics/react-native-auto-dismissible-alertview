@@ -54,19 +54,25 @@ public class AlertView extends ReactContextBaseJavaModule  {
         }
     }
 
-    private void setImage(ImageView imageView,ReadableMap imageData){
+    private void setImage(final ImageView imageView, final ReadableMap imageData){
         if(imageData.hasKey("uri")){
             Uri imgUri = Uri.parse(imageData.getString("uri"));
             int imageResource = getCurrentActivity().getResources().getIdentifier("@drawable/"+imgUri, null, getCurrentActivity().getPackageName());
-            if (imageResource != 0){
+            if (BuildConfig.DEBUG){
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try  {
+                            imageView.setImageBitmap(drawable_from_url(imageData.getString("uri")));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                thread.start();
+            }else {
                 Drawable res = getCurrentActivity().getResources().getDrawable(imageResource);
                 imageView.setImageDrawable(res);
-            }else {
-                try {
-                    imageView.setImageBitmap(drawable_from_url(imageData.getString("uri")));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         }
     }
