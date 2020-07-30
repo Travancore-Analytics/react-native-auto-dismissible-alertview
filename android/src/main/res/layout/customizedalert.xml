@@ -90,6 +90,7 @@
             android:contentDescription="AlertCancel"
             android:textSize="34sp"
             android:textColor="#000000"
+            android:textAllCaps="false"
             style="?android:attr/borderlessButtonStyle"/>
         <TextView
             android:id="@+id/secondaryButton"
@@ -105,6 +106,7 @@
             android:contentDescription="AlertSubmit"
             android:textSize="34sp"
             android:textColor="#000000"
+            android:textAllCaps="false"
             style="?android:attr/borderlessButtonStyle"/>
     </LinearLayout>
 
