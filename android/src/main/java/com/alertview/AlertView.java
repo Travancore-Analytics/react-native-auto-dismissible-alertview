@@ -96,6 +96,85 @@ public class AlertView extends ReactContextBaseJavaModule  {
         configureDialog(dialog,title,message,buttonText,styles,showClose,callback);
     }
 
+    private void showCustomizedDialog(final AlertDialog dialog,String title, String message,ReadableArray buttonNames,ReadableMap styles,boolean showClose, final Callback callback){
+        dialog.show();
+        // Set the alert size, to solve issues while coming back from landscape activity
+        dialog.getWindow().setLayout((int) getCurrentActivity().getResources().getDimension(R.dimen.alert_width),
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        configureCustomizedDialog(dialog,title,message,buttonNames,styles,showClose,callback);
+    }
+
+    private void configureCustomizedDialog(final AlertDialog dialog,String title, String message,ReadableArray buttonNames,ReadableMap styles,boolean showClose, final Callback callback){
+
+
+        TextView titleTextView      = (TextView)  dialog.findViewById(R.id.titleTextView);
+        TextView messageTextView    = (TextView)  dialog.findViewById(R.id.messageTextView);
+        TextView primaryButton       = (TextView)  dialog.findViewById(R.id.primaryButton);
+        TextView secondaryButton       = (TextView)  dialog.findViewById(R.id.secondaryButton);
+        ImageView centerImageView   = (ImageView) dialog.findViewById(R.id.centerImageView);
+        ImageView closeButton       = (ImageView) dialog.findViewById(R.id.closeButton);
+
+        titleTextView.setText(title);
+        messageTextView.setText(message);
+        if(buttonNames.size() == 2){
+            primaryButton.setText(buttonNames.getString(0));
+            secondaryButton.setText(buttonNames.getString(1));
+        }
+
+        primaryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WritableMap selectedButton = new WritableNativeMap();
+                selectedButton.putInt("buttonIndex",1);
+                dialog.dismiss();
+                callback.invoke(null,selectedButton);
+            }
+        });
+        secondaryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WritableMap selectedButton = new WritableNativeMap();
+                selectedButton.putInt("buttonIndex",2);
+                dialog.dismiss();
+                callback.invoke(null,selectedButton);
+            }
+        });
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WritableMap selectedButton = new WritableNativeMap();
+                selectedButton.putInt("buttonIndex",0);
+                dialog.dismiss();
+                callback.invoke(null,selectedButton);
+            }
+        });
+
+        if(styles.hasKey("titleStyle")){
+            applyCustomStyles(titleTextView,styles.getMap("titleStyle"));
+        }
+        if(styles.hasKey("messageStyle")){
+            applyCustomStyles(messageTextView,styles.getMap("messageStyle"));
+        }
+        if(styles.hasKey("primaryButtonStyle")){
+            applyCustomStyles(primaryButton,styles.getMap("primaryButtonStyle"));
+        }
+        if(styles.hasKey("seecondaryButtonStyle")){
+            applyCustomStyles(secondaryButton,styles.getMap("seecondaryButtonStyle"));
+        }
+        if (showClose){
+            if(styles.hasKey("closeButtonImage")){
+                setImage(closeButton,styles.getMap("closeButtonImage"));
+            }
+        }else{
+            closeButton.setVisibility(GONE);
+        }
+        if(styles.hasKey("centerImage")){
+            centerImageView.setVisibility(View.VISIBLE);
+            setImage(centerImageView,styles.getMap("centerImage"));
+        }
+
+    }
+
     private void configureDialog(final AlertDialog dialog,String title, String message,String buttonText,ReadableMap styles,boolean showClose, final Callback callback){
 
 
@@ -172,6 +251,32 @@ public class AlertView extends ReactContextBaseJavaModule  {
                     // Creates an alert and will keep reference and will be dismissed automatically.
                     dialog = builder.create();
                     showDialog(dialog,title,message,buttonText,styles,showClose,callback);
+                }
+            }
+        });
+    }
+
+    @ReactMethod public void showCustomAlert(final String title, final String message, final ReadableArray buttonNames, final ReadableMap styles, final boolean autoDismiss, final boolean showClose, final Callback callback){
+
+        getCurrentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getCurrentActivity());
+                builder.setCancelable(false);
+                builder.setView(R.layout.customizedalert);
+
+                // Dismissing any auto-dismissible alerts if already showing.
+                if (dialog != null && dialog.isShowing()){
+                    dialog.dismiss();
+                }
+
+                if(!autoDismiss) {
+                    // Creates an alert that doesn't have any reference that will not be dismissed automatically
+                    showCustomizedDialog(builder.create(),title,message,buttonNames,styles,showClose,callback);
+                } else {
+                    // Creates an alert and will keep reference and will be dismissed automatically.
+                    dialog = builder.create();
+                    showCustomizedDialog(dialog,title,message,buttonNames,styles,showClose,callback);
                 }
             }
         });
