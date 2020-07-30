@@ -8,5 +8,8 @@ export default {
   },
   showCustomizedAlert(title,message,buttonText,style,autoDismiss,showClose,callback){
       return AlertView.showCustomizedAlert(title,message,buttonText,style,autoDismiss,showClose,callback);
+  },
+  showCustomAlert(title,message,buttonNames,style,autoDismiss,showClose,callback){
+    return AlertView.showCustomAlert(title,message,buttonNames,style,autoDismiss,showClose,callback);
   }
 };
