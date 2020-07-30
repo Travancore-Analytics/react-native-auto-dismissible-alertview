@@ -3,6 +3,7 @@
 #import <UIKit/UIKit.h>
 #import "AlertView.h"
 #import "CustomAlertViewController.h"
+#import "CustomAlertController.h"
 // import RCTBridge
 #if __has_include(<React/RCTBridge.h>)
 #import <React/RCTBridge.h>
@@ -155,6 +156,58 @@ RCT_EXPORT_METHOD(showCustomizedAlert:(NSString *) title message:(NSString *) me
     });
 }
 
+RCT_EXPORT_METHOD(showCustomAlert:(NSString *) title message:(NSString *) message buttonNames:(NSArray *) buttonNames style:(NSDictionary *)style autoDismiss:(BOOL)autoDismiss showClose:(BOOL)showClose callback:(RCTResponseSenderBlock)callback) {
+    
+    self.customAlertCallback = callback;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        NSBundle *bundle = [NSBundle mainBundle];
+        
+        CustomAlertController *popupViewController = [[CustomAlertController alloc] initWithNibName:@"CustomAlertController" bundle:bundle];
+        popupViewController.delegate = self;
+        
+        if (title != nil) {
+            popupViewController.titleText = title;
+        }
+        if (style != nil) {
+            popupViewController.styleData = style;
+        }
+        if (message != nil) {
+            popupViewController.message = message;
+        }
+        if (buttonNames.count == 2) {
+            popupViewController.primaryButtonText = buttonNames[0];
+            popupViewController.secondaryButtonText = buttonNames[1];
+        }
+        popupViewController.showClose = showClose;
+        
+        UIViewController *root = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+        UIViewController *previousVC = nil;
+        
+        while (root.presentedViewController) {
+            
+            if ([root.presentedViewController isKindOfClass:[UIViewController class]]) {
+                previousVC = root.presentedViewController;
+                break;
+            }
+            
+            root = root.presentedViewController;
+        }
+        
+        if (previousVC != nil && !previousVC.isBeingDismissed) {
+            [previousVC dismissViewControllerAnimated:true completion:^{
+                [popupViewController setModalPresentationStyle:UIModalPresentationOverCurrentContext];
+                [root presentViewController:popupViewController animated:NO completion:nil];
+            }];
+        }else{
+            [popupViewController setModalPresentationStyle:UIModalPresentationOverCurrentContext];
+            [root presentViewController:popupViewController animated:NO completion:nil];
+        }
+        
+    });
+}
+
 - (void) submitButtonDelegate: (CustomAlertViewController *) sender {
     
     NSNumber *selectedIndex = [NSNumber numberWithInt:1];
@@ -169,6 +222,24 @@ RCT_EXPORT_METHOD(showCustomizedAlert:(NSString *) title message:(NSString *) me
     NSDictionary *selectedButton = [[NSDictionary alloc]initWithObjectsAndKeys:selectedIndex,@"buttonIndex", nil];
     self.alertCallback(@[[NSNull null], selectedButton]);
     
+}
+
+-(void) primaryButtonDelegate:(CustomAlertController *)sender{
+    NSNumber *selectedIndex = [NSNumber numberWithInt:1];
+    NSDictionary *selectedButton = [[NSDictionary alloc]initWithObjectsAndKeys:selectedIndex,@"buttonIndex", nil];
+    self.customAlertCallback(@[[NSNull null], selectedButton]);
+}
+
+-(void) secondaryButtonDelegate:(CustomAlertController *)sender{
+    NSNumber *selectedIndex = [NSNumber numberWithInt:2];
+    NSDictionary *selectedButton = [[NSDictionary alloc]initWithObjectsAndKeys:selectedIndex,@"buttonIndex", nil];
+    self.customAlertCallback(@[[NSNull null], selectedButton]);
+}
+
+-(void) onCloseDelegate:(CustomAlertController *)sender{
+    NSNumber *selectedIndex = [NSNumber numberWithInt:0];
+    NSDictionary *selectedButton = [[NSDictionary alloc]initWithObjectsAndKeys:selectedIndex,@"buttonIndex", nil];
+    self.customAlertCallback(@[[NSNull null], selectedButton]);
 }
 
 - (NSArray<NSString *> *)supportedEvents
