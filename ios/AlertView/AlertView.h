@@ -1,7 +1,7 @@
 //  Created by react-native-create-bridge
 
 #import "CustomAlertViewController.h"
-
+#import "CustomAlertController.h"
 // import RCTBridgeModule
 #if __has_include(<React/RCTBridgeModule.h>)
 #import <React/RCTBridgeModule.h>
@@ -20,8 +20,9 @@
 #import “React/RCTEventEmitter.h” // Required when used as a Pod in a Swift project
 #endif
 
-@interface AlertView : RCTEventEmitter <RCTBridgeModule, CustomAlertDelegate>
+@interface AlertView : RCTEventEmitter <RCTBridgeModule, CustomAlertDelegate, CustomAlertViewDelegate>
 @property (nonatomic, copy) RCTResponseSenderBlock alertCallback;
+@property (nonatomic, copy) RCTResponseSenderBlock customAlertCallback;
 @end
 
 
