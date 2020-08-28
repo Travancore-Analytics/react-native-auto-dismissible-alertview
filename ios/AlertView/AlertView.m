@@ -156,6 +156,30 @@ RCT_EXPORT_METHOD(showCustomizedAlert:(NSString *) title message:(NSString *) me
     });
 }
 
+RCT_EXPORT_METHOD(dismissAllAlerts){
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIViewController *root = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+        UIViewController *previousVC = nil;
+        
+        while (root.presentedViewController) {
+            
+            if ([root.presentedViewController isKindOfClass:[UIViewController class]]) {
+                previousVC = root.presentedViewController;
+                break;
+            }
+            
+            root = root.presentedViewController;
+        }
+        
+        if (previousVC != nil && !previousVC.isBeingDismissed) {
+            [previousVC dismissViewControllerAnimated:true completion:^{
+               
+            }];
+        }
+    });
+    
+}
+
 RCT_EXPORT_METHOD(showCustomAlert:(NSString *) title message:(NSString *) message buttonNames:(NSArray *) buttonNames style:(NSDictionary *)style autoDismiss:(BOOL)autoDismiss showClose:(BOOL)showClose callback:(RCTResponseSenderBlock)callback) {
     
     self.customAlertCallback = callback;
