@@ -11,5 +11,8 @@ export default {
   },
   showCustomAlert(title,message,buttonNames,style,autoDismiss,showClose,callback){
     return AlertView.showCustomAlert(title,message,buttonNames,style,autoDismiss,showClose,callback);
+  },
+  dismissAllAlerts(){
+    return AlertView.dismissAllAlerts();
   }
 };

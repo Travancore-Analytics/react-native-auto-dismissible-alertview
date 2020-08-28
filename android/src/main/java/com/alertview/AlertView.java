@@ -229,6 +229,11 @@ public class AlertView extends ReactContextBaseJavaModule  {
         }
 
     }
+    @ReactMethod public void dismissAllAlerts(){
+        if (dialog != null && dialog.isShowing()){
+            dialog.dismiss();
+        }
+    }
 
     @ReactMethod public void showCustomizedAlert(final String title, final String message, final String buttonText, final ReadableMap styles, final boolean autoDismiss, final boolean showClose, final Callback callback){
 
